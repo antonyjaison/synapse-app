@@ -1,9 +1,12 @@
-import { Text, View } from '@/components/Themed';
+import { View, Text } from 'react-native'
+import React from 'react'
 
-export default function HealthTab() {
+const HealthTab = () => {
   return (
     <View>
-      <Text>Tab Two</Text>
+      <Text>health</Text>
     </View>
-  );
+  )
 }
+
+export default HealthTab
