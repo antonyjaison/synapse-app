@@ -1,4 +1,5 @@
 
+import DocumentsSection from "@/components/DocumentsSection";
 import InsightSection from "@/components/InsightSection";
 import { Text, View } from "@/components/Themed";
 import Timer from "@/components/Timer";
@@ -11,15 +12,18 @@ export default function HomeTab() {
   return (
     <LinearGradient className="w-full h-screen" colors={["#fff", "#FCDBD5"]}>
       <ScrollView className="px-5">
-        <View className=" flex-col gap-6 bg-transparent mt-3 pb-44">
+        <View className=" flex-col gap-6 bg-transparent mt-3 pb-40">
           <View className="bg-transparent">
             <Timer />
           </View>
           <View className="bg-transparent">
-            <InsightSection />
+            <CalenderSection />
           </View>
           <View className="bg-transparent">
-            <CalenderSection />
+            <DocumentsSection />
+          </View>
+          <View className="bg-transparent">
+            <InsightSection />
           </View>
         </View>
       </ScrollView>
