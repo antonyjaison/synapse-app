@@ -38,59 +38,45 @@ export default function TabLayout() {
           },
           backgroundColor: Colors[colorScheme ?? "light"].background,
         },
-
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-
-          title:"Home",
+          title: "Home",
           headerTitle: () => <HomeHeaderTitle />,
           headerRight: () => <HomeHeaderRight />,
           headerStyle: {
             height: 100,
           },
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? "light"].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Tabs.Screen
         name="health"
         options={{
           title: "Health",
-          tabBarIcon: ({ color }) => <TabBarIcon name="heartbeat" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="heartbeat" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="shop"
         options={{
           title: "Shop",
-          tabBarIcon: ({ color }) => <TabBarIcon name="shopping-cart" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="shopping-cart" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="chat"
         options={{
           title: "Chat",
-          tabBarIcon: ({ color }) => <TabBarIcon name="comment-o" color={color} />,
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="comment-o" color={color} />
+          ),
         }}
       />
     </Tabs>
