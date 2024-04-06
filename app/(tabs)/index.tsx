@@ -10,10 +10,9 @@ import CalenderSection from "@/components/CalenderSection";
 
 export default function HomeTab() {
   return (
-
-    <ScrollView>
-      <LinearGradient className="w-full px-5 pb-4" colors={["#fff", "#FCDBD5"]}>
-        <View className=" flex-col gap-6 bg-transparent mt-3">
+    <LinearGradient className="w-full h-screen" colors={["#fff", "#FCDBD5"]}>
+      <ScrollView className="px-5">
+        <View className=" flex-col gap-6 bg-transparent mt-3 pb-44">
           <View className="bg-transparent">
             <Timer />
           </View>
@@ -21,13 +20,10 @@ export default function HomeTab() {
             <DocumentsSection />
           </View>
           <View className="bg-transparent">
-            <InsightSection />
+            <CalenderSection />
           </View>
-          <View className="px-5">
-      <CalenderSection />
-    </View>
         </View>
-      </LinearGradient>
-    </ScrollView>
+      </ScrollView>
+    </LinearGradient>
   );
 }

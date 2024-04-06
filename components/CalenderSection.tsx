@@ -19,7 +19,7 @@ const CalenderSection = () => {
   );
 
   return (
-    <View className="bg-red-300 rounded-[15px] py-4 px-5">
+    <View className="bg-cardbg rounded-[15px] py-4 px-5">
       <Text className="text-fontclr text-lg font-medium mb-1.5">Calender</Text>
       <View className="bg-cardborder h-[1px]" />
       <Calendar
