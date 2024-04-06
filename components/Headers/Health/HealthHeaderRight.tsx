@@ -1,6 +1,6 @@
 import { View, Text, TouchableNativeFeedback } from "react-native";
 import React from "react";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 const HealthHeaderRight = () => {
   return (
@@ -11,7 +11,7 @@ const HealthHeaderRight = () => {
         useForeground // Ensure ripple is in the foreground
       >
         <View className="bg-[#FFE8E8] w-12 h-12 justify-center items-center rounded-full">
-          <FontAwesome name="ellipsis-v" size={20} color="black" />
+          <Ionicons name="ellipsis-vertical" size={20} color="black" />
         </View>
       </TouchableNativeFeedback>
     </View>
