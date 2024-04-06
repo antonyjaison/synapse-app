@@ -4,7 +4,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const HealthHeaderRight = () => {
   return (
-    <View className="mr-2 rounded-full overflow-hidden">
+    <View className="mr-3 rounded-full overflow-hidden">
       <TouchableNativeFeedback
         background={TouchableNativeFeedback.Ripple("#ECDEDE", true)}
         onPress={() => console.log("Notification icon pressed")}

@@ -9,6 +9,7 @@ import HomeHeaderTitle from "@/components/Headers/HomeHeaderTitle";
 import HomeHeaderRight from "@/components/Headers/HomeHeaderRight";
 import HealthHeaderTitle from "@/components/Headers/Health/HealthHeaderTitle";
 import HealthHeaderRight from "@/components/Headers/Health/HealthHeaderRight";
+import HealthHeaderLeft from "@/components/Headers/Health/HealthHeaderLeft";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -60,6 +61,8 @@ export default function TabLayout() {
           title: "Health",
           headerTitle: () => <HealthHeaderTitle />,
           headerRight: () => <HealthHeaderRight />,
+          headerLeft:() => <HealthHeaderLeft />,
+          headerTitleAlign:"center",
           headerStyle: {
             height: 100,
           },

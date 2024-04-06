@@ -5,7 +5,7 @@ import { FontAwesome } from "@expo/vector-icons";
 const HomeHeaderRight = () => {
   return (
     <View className=" relative">
-      <View className="bg-[#FFE8E8] rounded-full mr-2 overflow-hidden">
+      <View className="bg-[#FFE8E8] rounded-full mr-3 overflow-hidden">
         <TouchableNativeFeedback
           background={TouchableNativeFeedback.Ripple("#ECDEDE", true)}
           onPress={() => console.log("Notification icon pressed")}

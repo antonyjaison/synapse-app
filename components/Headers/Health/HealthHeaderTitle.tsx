@@ -1,16 +1,12 @@
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
-import Avatar from "@/components/Avatar";
 
 const HealthHeaderTitle = () => {
   return (
-    <View className="flex-row">
-      <Avatar />
-      <View className=" ml-3">
-        <Text className="font-medium text-base">Good Morning</Text>
-        <Text className=" text-xs">Sarah</Text>
+      <View>
+        <Text className=" text-lg text-center">Activity</Text>
+        <Text className=" text-xs text-[#7b7b7b] text-center">Last Sync: 2 sec ago</Text>
       </View>
-    </View>
   );
 };
 
