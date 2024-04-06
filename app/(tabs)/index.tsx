@@ -12,15 +12,18 @@ export default function HomeTab() {
   return (
     <LinearGradient className="w-full h-screen" colors={["#fff", "#FCDBD5"]}>
       <ScrollView className="px-5">
-        <View className=" flex-col gap-6 bg-transparent mt-3 pb-44">
+        <View className=" flex-col gap-6 bg-transparent mt-3 pb-40">
           <View className="bg-transparent">
             <Timer />
+          </View>
+          <View className="bg-transparent">
+            <CalenderSection />
           </View>
           <View className="bg-transparent">
             <DocumentsSection />
           </View>
           <View className="bg-transparent">
-            <CalenderSection />
+            <InsightSection />
           </View>
         </View>
       </ScrollView>
