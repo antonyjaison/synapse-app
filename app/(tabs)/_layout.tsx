@@ -10,6 +10,9 @@ import HomeHeaderRight from "@/components/Headers/HomeHeaderRight";
 import HealthHeaderTitle from "@/components/Headers/Health/HealthHeaderTitle";
 import HealthHeaderRight from "@/components/Headers/Health/HealthHeaderRight";
 import HealthHeaderLeft from "@/components/Headers/Health/HealthHeaderLeft";
+import { View } from "@/components/Themed";
+import { Text } from "react-native";
+import Avatar from "@/components/Avatar";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -50,7 +53,7 @@ export default function TabLayout() {
           headerTitle: () => <HomeHeaderTitle />,
           headerRight: () => <HomeHeaderRight />,
           headerStyle: {
-            height: 100,
+            height: 120,
           },
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
@@ -61,10 +64,10 @@ export default function TabLayout() {
           title: "Health",
           headerTitle: () => <HealthHeaderTitle />,
           headerRight: () => <HealthHeaderRight />,
-          headerLeft:() => <HealthHeaderLeft />,
-          headerTitleAlign:"center",
+          headerLeft: () => <HealthHeaderLeft />,
+          headerTitleAlign: "center",
           headerStyle: {
-            height: 100,
+            height: 120,
           },
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="heartbeat" color={color} />
@@ -84,6 +87,23 @@ export default function TabLayout() {
         name="chat"
         options={{
           title: "Chat",
+          headerTitle: () => (
+            <View>
+              <Text className="text-2xl">Hygeia</Text>
+            </View>
+          ),
+          headerRight: () => <HealthHeaderRight />,
+          headerLeft: () => (
+            <View className="ml-4">
+              <Avatar />
+            </View>
+          ),
+          headerTitleAlign: "center",
+          headerStyle: {
+            height: 120,
+            borderBottomColor: "#D6D6D6",
+            borderBottomWidth: 1,
+          },
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="comment-o" color={color} />
           ),

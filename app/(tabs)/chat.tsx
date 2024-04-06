@@ -1,11 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import BackgroundGradient from '@/components/Layouts/BackgroundGradient'
 
 const ChatTab = () => {
   return (
-    <View>
-      <Text>ChatTab</Text>
-    </View>
+    <BackgroundGradient>
+      <View></View>
+    </BackgroundGradient>
   )
 }
 
