@@ -1,9 +1,15 @@
-import { Text, View } from '@/components/Themed';
+import { View, Text } from 'react-native'
+import React from 'react'
+import BackgroundGradient from '@/components/Layouts/BackgroundGradient'
 
-export default function HealthTab() {
+const HealthTab = () => {
   return (
-    <View>
-      <Text>Tab Two</Text>
-    </View>
-  );
+    <BackgroundGradient>
+      <View>
+        <Text>HealthTab</Text>
+      </View>
+    </BackgroundGradient>
+  )
 }
+
+export default HealthTab
