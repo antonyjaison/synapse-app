@@ -3,7 +3,7 @@ import React from "react";
 
 const InsightSection = () => {
   return (
-    <View className="bg-[#fffef] px-6 py-5 rounded-2xl">
+    <View className="bg-[#FFFEFE] px-6 py-5 rounded-2xl">
       <View>
         <Text className="text-lg font-medium">Insight for the day</Text>
         <Text className=" text-[#8E8E8E] text-xs">02 Feb 2024</Text>
