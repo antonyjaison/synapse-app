@@ -1,8 +1,8 @@
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import React from "react";
-import Avatar from "../Avatar";
+import Avatar from "@/components/Avatar";
 
-const HomeHeaderTitle = () => {
+const HealthHeaderTitle = () => {
   return (
     <View className="flex-row">
       <Avatar />
@@ -14,4 +14,4 @@ const HomeHeaderTitle = () => {
   );
 };
 
-export default HomeHeaderTitle;
+export default HealthHeaderTitle;

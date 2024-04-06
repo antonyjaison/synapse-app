@@ -7,6 +7,8 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import HomeHeaderTitle from "@/components/Headers/HomeHeaderTitle";
 import HomeHeaderRight from "@/components/Headers/HomeHeaderRight";
+import HealthHeaderTitle from "@/components/Headers/Health/HealthHeaderTitle";
+import HealthHeaderRight from "@/components/Headers/Health/HealthHeaderRight";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -56,6 +58,11 @@ export default function TabLayout() {
         name="health"
         options={{
           title: "Health",
+          headerTitle: () => <HealthHeaderTitle />,
+          headerRight: () => <HealthHeaderRight />,
+          headerStyle: {
+            height: 100,
+          },
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="heartbeat" color={color} />
           ),
