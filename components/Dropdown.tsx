@@ -25,7 +25,7 @@ const Dropdown = ({ value, setValue, data }: DropdownProps) => {
     <View
       className={cn(
         "rounded-[20px] relative",
-        open && "rounded-[11px] rounded-b-none"
+        open && "rounded-[11px] rounded-b-none z-[1001]"
       )}
     >
       <TouchableNativeFeedback
