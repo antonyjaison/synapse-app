@@ -5,10 +5,33 @@ import {
   Image,
   TouchableNativeFeedback,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Stack } from "expo-router";
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
+import {
+  signInWithCredential,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  User,
+} from "firebase/auth";
+import { AUTH } from "@/lib/firebase";
+
+WebBrowser.maybeCompleteAuthSession();
 
 const Login = () => {
+  const [req, res, promptAsync] = Google.useAuthRequest({
+    androidClientId: process.env.EXPO_PUBLIC_ANDROID_CLIENTID,
+  });
+
+  useEffect(() => {
+    if (res?.type === "success") {
+      const { id_token } = res.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(AUTH, credential);
+    }
+  }, [res]);
+
   return (
     <ImageBackground
       style={{ height: "100%" }}
@@ -34,7 +57,11 @@ const Login = () => {
           </Text>
         </View>
         <View className="bg-white rounded-lg px-3 mt-3 overflow-hidden">
-          <TouchableNativeFeedback>
+          <TouchableNativeFeedback
+            onPress={async () => {
+              const res = await promptAsync();
+            }}
+          >
             <View className=" h-fit items-center flex-row gap-3 justify-center py-3">
               <Image source={require("@/assets/images/google.png")} />
               <Text className="text-lg">Continue with google</Text>
