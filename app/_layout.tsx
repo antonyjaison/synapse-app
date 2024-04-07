@@ -5,11 +5,13 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, router, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -29,6 +31,8 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+
+  const router = useRouter()
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -58,8 +62,11 @@ function RootLayoutNav() {
         <Stack.Screen
           name="notification"
           options={{
-            title: "Notiifications",
             headerTitleAlign: "center",
+            headerShadowVisible:false,
+            headerTitle:() => (
+              <Text className=" text-xl">Notifications</Text>
+            ),
           }}
         />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
