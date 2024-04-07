@@ -3,6 +3,8 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import BackgroundGradient from "@/components/Layouts/BackgroundGradient";
 import { Link } from "expo-router";
+import { signOut } from "firebase/auth";
+import { AUTH } from "@/lib/firebase";
 
 const UserScreen = () => {
   return (
@@ -76,13 +78,15 @@ const UserScreen = () => {
           </View>
           <View className=" w-full h-[1px] bg-[#C6C6C6]" />
 
-          <View className=" h-fit flex-row w-full justify-between my-6">
-            <View className=" h-fit flex-row items-center gap-10">
-              <Ionicons color="red" name="log-out-outline" size={25} />
-              <Text className="text-sm text-red-500">Log out</Text>
+          <TouchableOpacity onPress={() => signOut(AUTH)}>
+            <View className=" h-fit flex-row w-full justify-between my-6">
+              <View className=" h-fit flex-row items-center gap-10">
+                <Ionicons color="red" name="log-out-outline" size={25} />
+                <Text className="text-sm text-red-500">Log out</Text>
+              </View>
+              <Ionicons color="red" name="chevron-forward" size={25} />
             </View>
-            <Ionicons color="red" name="chevron-forward" size={25} />
-          </View>
+          </TouchableOpacity>
           <View className=" w-full h-[1px] bg-[#C6C6C6]" />
         </View>
       </View>
