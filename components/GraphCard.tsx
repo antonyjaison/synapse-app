@@ -26,6 +26,7 @@ const GraphCard = () => {
         onLayout={(e) => setGraphWidth(e.nativeEvent.layout.width)}
       >
         <LineChart
+          zIndex1={10}
           data={data}
           width={graphWidth * 0.81}
           // width={graphWidth}
