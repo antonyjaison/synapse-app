@@ -63,10 +63,15 @@ const UserScreen = () => {
           <View className=" h-fit flex-row w-full justify-between my-6">
             <View className=" h-fit flex-row items-center gap-10">
               <Ionicons name="document-outline" size={25} />
-              <Text className="text-sm">Documents</Text>
+              <Link href="/documents">
+                <Text className="text-sm">Documents</Text>
+              </Link>
             </View>
-            <Ionicons name="chevron-forward" size={25} />
+            <Link href="/documents">
+              <Ionicons name="chevron-forward" size={25} />
+            </Link>
           </View>
+
           <View className=" w-full h-[1px] bg-[#C6C6C6]" />
 
           <View className=" h-fit flex-row w-full justify-between my-6">

@@ -67,20 +67,21 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const { user, isLoaded } = useUser();
   const colorScheme = useColorScheme();
-  useEffect(() => {
-    if (user && isLoaded) {
-      router.replace("/(tabs)");
-    } else if (isLoaded) {
-      router.replace("/(auth)/Login");
-    }
-  }, [user, isLoaded]);
+
+  // useEffect(() => {
+  //   if (user && isLoaded) {
+  //     router.replace("/(tabs)");
+  //   } else if (isLoaded) {
+  //     router.replace("/(auth)/Login");
+  //   }
+  // }, [user, isLoaded]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen
             name="(notification)/index"
             options={{
@@ -100,6 +101,15 @@ function RootLayoutNav() {
                   </Text>
                 </TouchableOpacity>
               ),
+            }}
+          />
+
+          <Stack.Screen
+            name="documents"
+            options={{
+              title: "Documents",
+              headerTitleAlign: "center",
+              headerShadowVisible: false,
             }}
           />
 
