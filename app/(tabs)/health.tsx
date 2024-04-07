@@ -1,10 +1,20 @@
 import GraphCard from "@/components/GraphCard";
-import { Text, View } from "@/components/Themed";
+import { View, Text } from 'react-native'
+import React from 'react'
+import BackgroundGradient from '@/components/Layouts/BackgroundGradient'
 
-export default function HealthTab() {
+const HealthTab = () => {
   return (
-    <View className="px-5 pt-4 flex-1 bg-gray-200">
+  );
+    <BackgroundGradient>
+      <View>
+        <Text>HealthTab</Text>
+      </View>
+        <View className="px-5 pt-4 flex-1">
       <GraphCard />
     </View>
-  );
+    </BackgroundGradient>
+  )
 }
+
+export default HealthTab
