@@ -5,11 +5,13 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, router, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { Text, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUser } from "@/stores/useUser";
@@ -37,6 +39,7 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const router = useRouter();
   useEffect(() => {
     const unsub = onAuthStateChanged(AUTH, (user) => setUser(user));
     return () => unsub();
@@ -75,6 +78,18 @@ function RootLayoutNav() {
               headerTitleAlign: "center",
             }}
           />
+          <Stack.Screen
+          name="user"
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerRight: () => (
+              <TouchableOpacity>
+                <Text className="text-[#006D77] font-medium text-lg">Edit</Text>
+              </TouchableOpacity>
+            ),
+          }}
+        />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
           <Stack.Screen name="oauthredirect" options={{ headerShown: false }} />

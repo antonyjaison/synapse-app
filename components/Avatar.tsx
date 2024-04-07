@@ -1,3 +1,7 @@
+import { Image } from "react-native";
+import React from "react";
+import { Link } from "expo-router";
+import { View } from "./Themed";
 import { Image } from 'react-native'
 import React from 'react'
 import { useUser } from "@/stores/useUser";
@@ -5,15 +9,15 @@ import { useUser } from "@/stores/useUser";
 const Avatar = () => {
   const { user } = useUser();
   return (
-    <Image
-      className="w-10 h-10 rounded-full"
-      source={
-        user?.photoURL
-          ? { uri: user.photoURL }
-          : require("@/assets/images/avatar.png")
-      }
-    />
+    <Link className="h-10 w-10" href={"/user"}>
+      <View className="">
+        <Image
+          className=" rounded-full w-10 h-10"
+          source={require("@/assets/images/avatar.png")}
+        />
+      </View>
+    </Link>
   );
 };
 
-export default Avatar
+export default Avatar;
