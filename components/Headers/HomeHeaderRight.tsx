@@ -10,7 +10,7 @@ const HomeHeaderRight = () => {
       <View className="bg-[#FFE8E8] rounded-full mr-3 overflow-hidden">
         <TouchableNativeFeedback
           background={TouchableNativeFeedback.Ripple("#ECDEDE", true)}
-          onPress={() => router.push("/notification/read/")}
+          onPress={() => router.push("/notification/unread")}
           useForeground
         >
           <View

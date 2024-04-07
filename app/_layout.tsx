@@ -33,15 +33,16 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const { setUser, user } = useUser();
+  const { setUser, user, setIsLoaded, isLoaded } = useUser();
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
-
-  const router = useRouter();
   useEffect(() => {
-    const unsub = onAuthStateChanged(AUTH, (user) => setUser(user));
+    const unsub = onAuthStateChanged(AUTH, (user) => {
+      setUser(user);
+      setIsLoaded(true);
+    });
     return () => unsub();
   }, []);
 
@@ -51,10 +52,10 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && isLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, isLoaded]);
 
   if (!loaded) {
     return null;
@@ -64,12 +65,21 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const { user, isLoaded } = useUser();
   const colorScheme = useColorScheme();
+  useEffect(() => {
+    if (user && isLoaded) {
+      router.replace("/(tabs)");
+    } else if (isLoaded) {
+      router.replace("/(auth)/Login");
+    }
+  }, [user, isLoaded]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen
             name="(notification)/index"
@@ -79,18 +89,20 @@ function RootLayoutNav() {
             }}
           />
           <Stack.Screen
-          name="user"
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerRight: () => (
-              <TouchableOpacity>
-                <Text className="text-[#006D77] font-medium text-lg">Edit</Text>
-              </TouchableOpacity>
-            ),
-          }}
-        />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            name="user"
+            options={{
+              title: "",
+              headerShadowVisible: false,
+              headerRight: () => (
+                <TouchableOpacity>
+                  <Text className="text-[#006D77] font-medium text-lg">
+                    Edit
+                  </Text>
+                </TouchableOpacity>
+              ),
+            }}
+          />
+
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
           <Stack.Screen name="oauthredirect" options={{ headerShown: false }} />
         </Stack>
