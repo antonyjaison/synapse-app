@@ -1,14 +1,16 @@
 import React from "react";
 import { View, TouchableNativeFeedback } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { Link, useRouter } from "expo-router";
 
 const HomeHeaderRight = () => {
+  const router = useRouter();
   return (
     <View className=" relative">
       <View className="bg-[#FFE8E8] rounded-full mr-3 overflow-hidden">
         <TouchableNativeFeedback
           background={TouchableNativeFeedback.Ripple("#ECDEDE", true)}
-          onPress={() => console.log("Notification icon pressed")}
+          onPress={() => router.push("/(auth)/Login")}
           useForeground
         >
           <View
