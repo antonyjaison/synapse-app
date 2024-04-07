@@ -5,6 +5,8 @@ import {
   TextInput,
   Image,
   Text,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -14,26 +16,36 @@ import {
   Time,
   InputToolbar,
   Send,
-  Avatar,
 } from "react-native-gifted-chat";
 import messageData from "@/assets/data/messages.json";
 import { Ionicons } from "@expo/vector-icons";
+import { useChatStore } from "@/stores/useChat";
+import { cn } from "@/lib/utils";
+
+type MyMessageType = {
+  id: string;
+  from: 0 | 1;
+  msg: string;
+  date: Date;
+};
 
 const ChatTab = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [text, setText] = useState("");
+  const { setIsChatInputFocus, isChatInputFocus, setIsChatInputBlur, model } =
+    useChatStore();
 
   useEffect(() => {
     setMessages([
-      ...messageData.map((message) => {
+      ...messageData.map((message: MyMessageType) => {
         return {
-          _id: message.id,
-          text: message.msg,
-          createdAt: new Date(message.date),
+          _id: message?.id,
+          text: message?.msg,
+          createdAt: new Date(message?.date),
           user: {
-            _id: message.from,
-            name: message.from ? "user" : "hygeia",
-            avatar: message.from ? "" : "https://github.com/shadcn.png",
+            _id: message?.from,
+            name: message?.from ? "user" : "hygeia",
+            avatar: message?.from ? "" : "https://github.com/shadcn.png",
           },
         };
       }),
@@ -150,7 +162,11 @@ const ChatTab = () => {
 
   return (
     <ImageBackground
-      source={require("@/assets/images/chat-bg.png")}
+      source={
+        model === "hygeia"
+          ? require("@/assets/images/chat-bg.png")
+          : require("@/assets/images/sage-bg.png")
+      }
       style={{ flex: 1 }}
     >
       <GiftedChat
@@ -161,6 +177,39 @@ const ChatTab = () => {
           _id: 1,
           name: "user",
         }}
+        renderChatEmpty={() => (
+          <View className=" h-[500px] justify-around items-center rotate-180">
+            <View />
+            <View className=" justify-center items-center">
+              {model === "hygeia" ? (
+                <Image
+                  className=" w-24 h-24"
+                  source={require("@/assets/images/hygeia.png")}
+                />
+              ) : (
+                <Image
+                  className=" w-24 h-24"
+                  source={require("@/assets/images/sage.png")}
+                />
+              )}
+
+              <Text
+                className={cn(
+                  " text-xl text-center mt-7",
+                  model === "sage" && "px-7"
+                )}
+              >
+                {model === "hygeia"
+                  ? "Hi there! I'm Hygeia, your friendly health companion."
+                  : "Hi there!  I'm Sage, your friendly Mental health care companion."}
+              </Text>
+            </View>
+            <Text className="px-7 text-[#2D2D2D] text-xs font-light">
+              Do not send any sensitive or explicit text in this chat. View
+              <Text className=" underline">Willow Privacy</Text>
+            </Text>
+          </View>
+        )}
         renderAvatar={renderAvatar}
         renderBubble={renderBubble}
         renderSend={(props) => (
@@ -193,7 +242,12 @@ const ChatTab = () => {
         renderInputToolbar={(props: any) => {
           const textInputProps = {
             ...props.textInputProps,
-            onFocus: () => console.log("onFocus"),
+            onFocus: () => {
+              setIsChatInputFocus();
+            },
+            onBlur: () => {
+              setIsChatInputBlur();
+            },
           };
 
           return (

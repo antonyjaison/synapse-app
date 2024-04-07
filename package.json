@@ -16,6 +16,7 @@
     "@carbon/react-native": "^8.0.23",
     "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-picker/picker": "^2.7.2",
     "@react-navigation/native": "^6.0.2",
     "clsx": "^2.1.0",
     "expo": "~50.0.14",

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
-
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
@@ -11,9 +10,12 @@ import HealthHeaderTitle from "@/components/Headers/Health/HealthHeaderTitle";
 import HealthHeaderRight from "@/components/Headers/Health/HealthHeaderRight";
 import HealthHeaderLeft from "@/components/Headers/Health/HealthHeaderLeft";
 import { View } from "@/components/Themed";
-import { Text } from "react-native";
+import { Text, Animated } from "react-native";
 import Avatar from "@/components/Avatar";
 import { Ionicons } from "@expo/vector-icons";
+import { useChatStore } from "@/stores/useChat";
+import { Keyboard } from "react-native";
+import ChatHeaderRight from "@/components/Headers/Chat/ChatHeaderRight";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -26,9 +28,28 @@ function TabBarIcon(props: {
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-  const tabBarShown = () => {
+  const { isChatInputFocus, setIsChatInputFocus, setIsChatInputBlur, model } =
+    useChatStore();
 
-  }
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setIsChatInputFocus(); // or some other action
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setIsChatInputBlur(); // or some other action
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   return (
     <Tabs
@@ -91,16 +112,18 @@ export default function TabLayout() {
       <Tabs.Screen
         name="chat"
         options={{
-          // tabBarStyle:{
-          //   display:"none"
-          // },
+          tabBarStyle: {
+            display: isChatInputFocus ? "none" : "flex",
+          },
           title: "Chat",
           headerTitle: () => (
             <View>
-              <Text className="text-2xl">Hygeia</Text>
+              <Text className="text-2xl">
+                {model.charAt(0).toUpperCase() + model.slice(1)}
+              </Text>
             </View>
           ),
-          headerRight: () => <HealthHeaderRight />,
+          headerRight: () => <ChatHeaderRight />,
           headerLeft: () => (
             <View className="ml-4">
               <Avatar />
