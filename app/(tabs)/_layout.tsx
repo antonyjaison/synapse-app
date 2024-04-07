@@ -15,6 +15,7 @@ import Avatar from "@/components/Avatar";
 import { Ionicons } from "@expo/vector-icons";
 import { useChatStore } from "@/stores/useChat";
 import { Keyboard } from "react-native";
+import ChatHeaderRight from "@/components/Headers/Chat/ChatHeaderRight";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -27,7 +28,7 @@ function TabBarIcon(props: {
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-  const { isChatInputFocus, setIsChatInputFocus, setIsChatInputBlur } =
+  const { isChatInputFocus, setIsChatInputFocus, setIsChatInputBlur, model } =
     useChatStore();
 
   useEffect(() => {
@@ -117,10 +118,12 @@ export default function TabLayout() {
           title: "Chat",
           headerTitle: () => (
             <View>
-              <Text className="text-2xl">Hygeia</Text>
+              <Text className="text-2xl">
+                {model.charAt(0).toUpperCase() + model.slice(1)}
+              </Text>
             </View>
           ),
-          headerRight: () => <HealthHeaderRight />,
+          headerRight: () => <ChatHeaderRight />,
           headerLeft: () => (
             <View className="ml-4">
               <Avatar />
