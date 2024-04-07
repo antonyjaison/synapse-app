@@ -10,11 +10,17 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { onAuthStateChanged } from "firebase/auth";
+import { useUser } from "@/stores/useUser";
+import { AUTH } from "@/lib/firebase";
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
+
+const queryClient = new QueryClient();
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -25,10 +31,16 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const { setUser, user } = useUser();
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(AUTH, (user) => setUser(user));
+    return () => unsub();
+  }, []);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -52,19 +64,22 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="notification"
-          options={{
-            title: "Notiifications",
-            headerTitleAlign: "center",
-          }}
-        />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(notification)/index"
+            options={{
+              title: "Notifications",
+              headerTitleAlign: "center",
+            }}
+          />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+          <Stack.Screen name="oauthredirect" options={{ headerShown: false }} />
+        </Stack>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
