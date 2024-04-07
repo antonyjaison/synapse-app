@@ -10,7 +10,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
-import { Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export {
@@ -32,7 +32,7 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  const router = useRouter()
+  const router = useRouter();
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -57,15 +57,25 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
+      <Stack initialRouteName="user">
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="notification"
           options={{
             headerTitleAlign: "center",
-            headerShadowVisible:false,
-            headerTitle:() => (
-              <Text className=" text-xl">Notifications</Text>
+            headerShadowVisible: false,
+            headerTitle: () => <Text className=" text-xl">Notifications</Text>,
+          }}
+        />
+        <Stack.Screen
+          name="user"
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerRight: () => (
+              <TouchableOpacity>
+                <Text className="text-[#006D77] font-medium text-lg">Edit</Text>
+              </TouchableOpacity>
             ),
           }}
         />

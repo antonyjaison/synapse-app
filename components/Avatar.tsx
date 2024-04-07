@@ -1,11 +1,19 @@
-import { Image } from 'react-native'
-import React from 'react'
+import { Image } from "react-native";
+import React from "react";
+import { Link } from "expo-router";
+import { View } from "./Themed";
 
 const Avatar = () => {
   return (
-    <Image className='w-10 h-10' source={require("@/assets/images/avatar.png")}/>
+    <Link className="h-10 w-10" href={"/user"}>
+      <View className="">
+        <Image
+          className=" rounded-full w-10 h-10"
+          source={require("@/assets/images/avatar.png")}
+        />
+      </View>
+    </Link>
+  );
+};
 
-  )
-}
-
-export default Avatar
+export default Avatar;
