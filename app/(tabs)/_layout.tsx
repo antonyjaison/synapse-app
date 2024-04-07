@@ -26,6 +26,10 @@ function TabBarIcon(props: {
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const tabBarShown = () => {
+
+  }
+
   return (
     <Tabs
       screenOptions={{
@@ -87,6 +91,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="chat"
         options={{
+          // tabBarStyle:{
+          //   display:"none"
+          // },
           title: "Chat",
           headerTitle: () => (
             <View>

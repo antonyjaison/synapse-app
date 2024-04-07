@@ -14,7 +14,7 @@ import {
   Time,
   InputToolbar,
   Send,
-  Avatar
+  Avatar,
 } from "react-native-gifted-chat";
 import messageData from "@/assets/data/messages.json";
 import { Ionicons } from "@expo/vector-icons";
@@ -75,13 +75,13 @@ const ChatTab = () => {
             borderTopRightRadius: 0,
             borderWidth: 0.5,
             borderColor: "#6C6969",
-            marginBottom:20
+            marginBottom: 20,
           },
           left: {
             backgroundColor: "#006D77",
             borderBottomLeftRadius: 10,
             borderTopLeftRadius: 0,
-            marginBottom:20
+            marginBottom: 20,
           },
         }}
         textStyle={{
@@ -100,41 +100,48 @@ const ChatTab = () => {
   const renderAvatar = (props: any) => {
     const { currentMessage } = props;
     const user = currentMessage.user;
-  
+
     // Avatar styling
     const avatarStyle = {
       width: 36, // Size of the avatar
       height: 36,
       borderRadius: 18, // Makes the avatar round
       marginRight: 10, // Spacing between avatar and message bubble
-      overflow: 'hidden', // Ensures the image fits nicely within the rounded borders
-      marginBottom:20
+      overflow: "hidden", // Ensures the image fits nicely within the rounded borders
+      marginBottom: 20,
     };
-  
+
     const textStyle = {
-      color: '#FFFFFF', // Text color for initials
-      fontWeight: 'bold', // Makes initials more prominent
+      color: "#FFFFFF", // Text color for initials
+      fontWeight: "bold", // Makes initials more prominent
       fontSize: 14, // Size of the text for initials
     };
-  
+
     // Function to get initials from user name
     const getInitials = (name: any) => {
-      const parts = name.split(' ');
-      const initials = parts.map((part: any) => part[0]).join('');
+      const parts = name.split(" ");
+      const initials = parts.map((part: any) => part[0]).join("");
       return initials.toUpperCase();
     };
-  
+
     if (user.avatar) {
       // If the user has an avatar, display it
-      return (
-        <Image source={{ uri: user.avatar }} style={avatarStyle} />
-      );
+      return <Image source={{ uri: user.avatar }} style={avatarStyle} />;
     } else {
       // If no avatar is available, display initials or a default image
       const initials = getInitials(user.name);
-  
+
       return (
-        <View style={[avatarStyle, { backgroundColor: '#006D77', justifyContent: 'center', alignItems: 'center' }]}>
+        <View
+          style={[
+            avatarStyle,
+            {
+              backgroundColor: "#006D77",
+              justifyContent: "center",
+              alignItems: "center",
+            },
+          ]}
+        >
           <Text style={textStyle}>{initials}</Text>
         </View>
       );
@@ -155,7 +162,6 @@ const ChatTab = () => {
           name: "user",
         }}
         renderAvatar={renderAvatar}
-   
         renderBubble={renderBubble}
         renderSend={(props) => (
           <Send {...props} alwaysShowSend>
@@ -184,23 +190,30 @@ const ChatTab = () => {
         }}
         onInputTextChanged={setText}
         maxComposerHeight={100}
-        renderInputToolbar={(props) => (
-          <InputToolbar
-            {...props}
-            containerStyle={{
-              // height:60,
-              backgroundColor: "white",
-            }}
-            renderActions={() => (
-              <TouchableOpacity
-                style={{ height: 46, marginLeft: 5 }}
-                onPress={() => console.log("Actions button")}
-              >
-                <Ionicons name="mic-outline" size={24} color="black" />
-              </TouchableOpacity>
-            )}
-          ></InputToolbar>
-        )}
+        renderInputToolbar={(props: any) => {
+          const textInputProps = {
+            ...props.textInputProps,
+            onFocus: () => console.log("onFocus"),
+          };
+
+          return (
+            <InputToolbar
+              {...props}
+              textInputProps={textInputProps}
+              containerStyle={{
+                backgroundColor: "white",
+              }}
+              renderActions={() => (
+                <TouchableOpacity
+                  style={{ height: 46, marginLeft: 5 }}
+                  onPress={() => console.log("Actions button")}
+                >
+                  <Ionicons name="mic-outline" size={24} color="black" />
+                </TouchableOpacity>
+              )}
+            />
+          );
+        }}
       />
     </ImageBackground>
   );
