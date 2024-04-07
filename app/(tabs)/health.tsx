@@ -5,7 +5,6 @@ import BackgroundGradient from '@/components/Layouts/BackgroundGradient'
 
 const HealthTab = () => {
   return (
-  );
     <BackgroundGradient>
       <View>
         <Text>HealthTab</Text>
@@ -14,7 +13,7 @@ const HealthTab = () => {
       <GraphCard />
     </View>
     </BackgroundGradient>
-  )
+  );
 }
 
 export default HealthTab
