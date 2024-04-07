@@ -9,9 +9,7 @@ const HealthTab = () => {
       <View>
         <Text>HealthTab</Text>
       </View>
-        <View className="px-5 pt-4 flex-1">
-      <GraphCard />
-    </View>
+      <View className="px-5 pt-4 flex-1">{/* <GraphCard /> */}</View>
     </BackgroundGradient>
   );
 }

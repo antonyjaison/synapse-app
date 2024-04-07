@@ -4,9 +4,9 @@ import React from 'react'
 const ShopTab = () => {
   return (
     <View>
-      <Text>ShopTab</Text>
+      <Text>ShopTabbbb</Text>
     </View>
-  )
+  );
 }
 
 export default ShopTab
