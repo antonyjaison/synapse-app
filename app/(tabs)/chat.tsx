@@ -5,6 +5,8 @@ import {
   TextInput,
   Image,
   Text,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -18,10 +20,12 @@ import {
 } from "react-native-gifted-chat";
 import messageData from "@/assets/data/messages.json";
 import { Ionicons } from "@expo/vector-icons";
+import { useChatStore } from "@/stores/useChat";
 
 const ChatTab = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [text, setText] = useState("");
+  const { setIsChatInputFocus, isChatInputFocus, setIsChatInputBlur } = useChatStore();
 
   useEffect(() => {
     setMessages([
@@ -149,73 +153,86 @@ const ChatTab = () => {
   };
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/chat-bg.png")}
-      style={{ flex: 1 }}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }} // Makes sure the KeyboardAvoidingView takes up the full screen
+      behavior={Platform.OS === "ios" ? "padding" : "height"} // 'padding' works well on iOS, 'height' might be better for Android
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0} // Adjusts the offset on iOS for the status bar, no offset needed for Android
     >
-      <GiftedChat
-        bottomOffset={-20}
-        messages={messages}
-        onSend={(messages: any) => onSend(messages)}
-        user={{
-          _id: 1,
-          name: "user",
-        }}
-        renderAvatar={renderAvatar}
-        renderBubble={renderBubble}
-        renderSend={(props) => (
-          <Send {...props} alwaysShowSend>
-            <View
-              style={{
-                height: 46,
-                marginLeft: 5,
-              }}
-            >
-              <Ionicons name="send" size={25} color="#006D77" />
-            </View>
-          </Send>
-        )}
-        textInputProps={{
-          placeholder: "Type or say to begin chat...",
-          placeholderTextColor: "#2A2A2A",
-          style: {
-            backgroundColor: "#dadada",
-            color: "#000",
-            padding: 10,
-            marginVertical: 10,
-            borderRadius: 30,
-            width: "80%",
-            marginLeft: 5,
-          },
-        }}
-        onInputTextChanged={setText}
-        maxComposerHeight={100}
-        renderInputToolbar={(props: any) => {
-          const textInputProps = {
-            ...props.textInputProps,
-            onFocus: () => console.log("onFocus"),
-          };
+      <ImageBackground
+        source={require("@/assets/images/chat-bg.png")}
+        style={{ flex: 1 }}
+      >
+        <GiftedChat
+          bottomOffset={-20}
+          messages={messages}
+          onSend={(messages: any) => onSend(messages)}
+          user={{
+            _id: 1,
+            name: "user",
+          }}
+          renderAvatar={renderAvatar}
+          renderBubble={renderBubble}
+          renderSend={(props) => (
+            <Send {...props} alwaysShowSend>
+              <View
+                style={{
+                  height: 46,
+                  marginLeft: 5,
+                }}
+              >
+                <Ionicons name="send" size={25} color="#006D77" />
+              </View>
+            </Send>
+          )}
+          textInputProps={{
+            placeholder: "Type or say to begin chat...",
+            placeholderTextColor: "#2A2A2A",
+            style: {
+              backgroundColor: "#dadada",
+              color: "#000",
+              padding: 10,
+              marginVertical: 10,
+              borderRadius: 30,
+              width: "80%",
+              marginLeft: 5,
+            },
+          }}
+          onInputTextChanged={setText}
+          maxComposerHeight={100}
+          renderInputToolbar={(props: any) => {
+            const textInputProps = {
+              ...props.textInputProps,
+              onFocus: () => {
+                console.log(isChatInputFocus);
+                setIsChatInputFocus();
+              },
+              onBlur: () => {
+                console.log(isChatInputFocus);
+                setIsChatInputBlur();
+              },
+            };
 
-          return (
-            <InputToolbar
-              {...props}
-              textInputProps={textInputProps}
-              containerStyle={{
-                backgroundColor: "white",
-              }}
-              renderActions={() => (
-                <TouchableOpacity
-                  style={{ height: 46, marginLeft: 5 }}
-                  onPress={() => console.log("Actions button")}
-                >
-                  <Ionicons name="mic-outline" size={24} color="black" />
-                </TouchableOpacity>
-              )}
-            />
-          );
-        }}
-      />
-    </ImageBackground>
+            return (
+              <InputToolbar
+                {...props}
+                textInputProps={textInputProps}
+                containerStyle={{
+                  backgroundColor: "white",
+                }}
+                renderActions={() => (
+                  <TouchableOpacity
+                    style={{ height: 46, marginLeft: 5 }}
+                    onPress={() => console.log("Actions button")}
+                  >
+                    <Ionicons name="mic-outline" size={24} color="black" />
+                  </TouchableOpacity>
+                )}
+              />
+            );
+          }}
+        />
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 };
 
