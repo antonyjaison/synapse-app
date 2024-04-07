@@ -1,20 +1,38 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { TouchableNativeFeedback } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign, FontAwesome } from "@expo/vector-icons";
 
-const DocumentCard = () => {
+type DocumentCardProps = {
+  onPress?: () => void;
+  title?: string;
+  valid_till?: string;
+  subtitle?: string;
+};
+
+const DocumentCard = ({
+  onPress,
+  subtitle,
+  title,
+  valid_till,
+}: DocumentCardProps) => {
   return (
-    <View className=" w-32 h-32 bg-[#eee] rounded-2xl overflow-hidden mt-6">
+    <View
+      style={{ elevation: 3 }}
+      className=" w-full  bg-white rounded-2xl overflow-hidden mt-6"
+    >
       <TouchableNativeFeedback
         useForeground
         onPress={() => console.log("pressed card")}
       >
-        <View className="w-32 h-32 items-center justify-center">
-          <FontAwesome name="file-o" size={30} />
-          <Text className="text-sm w-20 text-center mt-2">
-            Health Insurance
-          </Text>
+        <View className="px-5 py-4 w-full flex-row">
+          <AntDesign name="pdffile1" size={30} color="#C10000" />
+          <View className=" ml-3">
+            <Text className="text-sm">Health Insurance</Text>
+            <Text className="text-[10px] text-[#999797]">
+              Met Life | Valid till : 31-03-2025
+            </Text>
+          </View>
         </View>
       </TouchableNativeFeedback>
     </View>
