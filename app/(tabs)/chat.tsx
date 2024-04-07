@@ -59,47 +59,59 @@ const ChatTab = () => {
 
   const onSend = useCallback(
     async (messages = []) => {
-      setLoading(true);
-      setMessages((previousMessages) =>
-        GiftedChat.append(previousMessages, messages)
-      );
+      try {
+        setLoading(true); // Start loading
 
-      const res = await fetch(
-        `https://c961-2409-40f3-101f-3967-c7e7-ea31-e7c1-5b02.ngrok-free.app/${model}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            messages: text,
-            uid: "rcT4Yob91eNQMeSl1INaE7BsRBq1",
-          }),
-        }
-      );
-
-      if (!res.ok) throw new Error();
-
-      const json = await res.json();
-
-      if (json) {
+        // Append new messages to the chat
         setMessages((previousMessages) =>
-          GiftedChat.append(previousMessages, {
-            _id: Math.random().toString(),
-            text: json.message,
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: "hygeia",
-              avatar: "https://github.com/shadcn.png",
-            },
-          })
+          GiftedChat.append(previousMessages, messages)
         );
-        setLoading(false);
+
+        // Perform the POST request
+        const response = await fetch(
+          `https://c961-2409-40f3-101f-3967-c7e7-ea31-e7c1-5b02.ngrok-free.app/${model}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              messages: text, // Assuming 'text' is the text from the new message
+              uid: "rcT4Yob91eNQMeSl1INaE7BsRBq1",
+            }),
+          }
+        );
+
+        if (!response.ok) throw new Error("Failed to fetch");
+
+        const res = response;
+        console.log(JSON.stringify(res));
+
+        const textResponse = await response.text(); // Use .text() instead of .json()
+        console.log(textResponse);
+
+        // Check if the text response is not empty and append message
+        if (textResponse) {
+          setMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, {
+              _id: Math.random().toString(),
+              text: textResponse, // Use the text response directly
+              createdAt: new Date(),
+              user: {
+                _id: 2,
+                name: "hygeia",
+                avatar: "https://github.com/shadcn.png",
+              },
+            })
+          );
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      } finally {
+        setLoading(false); // Stop loading regardless of outcome
       }
-      setLoading(false);
     },
-    [text]
+    [model, text] // Ensure 'model' and 'text' are included in dependency array if they are used within the callback
   );
 
   const renderTime = (props: any) => {
