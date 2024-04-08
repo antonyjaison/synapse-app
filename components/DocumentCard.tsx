@@ -23,14 +23,16 @@ const DocumentCard = ({
     >
       <TouchableNativeFeedback
         useForeground
-        onPress={() => console.log("pressed card")}
+        onPress={() => {
+          onPress && onPress();
+        }}
       >
         <View className="px-5 py-4 w-full flex-row">
           <AntDesign name="pdffile1" size={30} color="#C10000" />
           <View className=" ml-3">
-            <Text className="text-sm">Health Insurance</Text>
+            <Text className="text-sm">{title ?? "document"}</Text>
             <Text className="text-[10px] text-[#999797]">
-              Met Life | Valid till : 31-03-2025
+              {subtitle ?? "Met Life | Valid till : 31-03-2025"}
             </Text>
           </View>
         </View>
