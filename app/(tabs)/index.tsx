@@ -11,22 +11,55 @@ import * as Location from "expo-location";
 import { useEffect, useRef, useState } from "react";
 import { Linking } from "react-native";
 import { io } from "socket.io-client";
+import { getMessaging, getToken } from "firebase/messaging";
+import { FIREBASE_APP } from "@/lib/firebase";
+// import BackgroundTask from 'react-native-background-task';
+// import PushNotification from 'react-native-push-notification';
+
+// const messaging = getMessaging(FIREBASE_APP);
 
 export default function HomeTab() {
   const [location, setLocation] = useState<any>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   // useEffect(() => {
-  //   const ws = io(
-  //     "https://c961-2409-40f3-101f-3967-c7e7-ea31-e7c1-5b02.ngrok-free.app/"
-  //   );
-  //   console.log("Connecting to server", ws.connected);
-  //   ws.on("connect", () => {
-  //     console.log("Connecte to server");
+  //   // Set up the background task
+  //   const taskId = BackgroundTask.define(() => {
+  //     // Run your timer logic here
+  //     runTimer();
   //   });
-  //   ws.on("error", (e) => {
-  //     console.error("Error connecting to server", e);
-  //   });
+
+  //   // Start the background task
+  //   BackgroundTask.start(taskId);
+
+  //   // Clean up the background task when the component unmounts
+  //   return () => {
+  //     BackgroundTask.cancel(taskId);
+  //   };
   // }, []);
+
+  // const runTimer = () => {
+  //   // Set the initial timer value (e.g., 60 seconds)
+  //   let timer = 60;
+
+  //   // Create an interval to decrement the timer every second
+  //   const interval = setInterval(() => {
+  //     timer--;
+
+  //     if (timer === 0) {
+  //       // Timer has reached the target value, trigger a local notification
+  //       triggerLocalNotification();
+  //       clearInterval(interval);
+  //     }
+  //   }, 1000);
+  // };
+
+  // const triggerLocalNotification = () => {
+  //   PushNotification.localNotification({
+  //     channelId: "your-channel-id", // Replace with your own channel ID
+  //     title: "Timer Notification",
+  //     message: "The timer has reached the target value!",
+  //   });
+  // };
 
   const ripple = TouchableNativeFeedback.Ripple("#FFFFFF70", true);
 
