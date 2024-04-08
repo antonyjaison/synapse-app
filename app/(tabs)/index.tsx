@@ -38,10 +38,11 @@ export default function HomeTab() {
   }
 
   const makeAlert = async () => {
-    const targetNumber = "8129937097";
-    const sourcenumbers = ["7736676823", "7736676823", "7736676823"];
+    const sourcenumbers = "8129937097";
+    const targetNumber = ["7736676823", "8606669122", "7736676823"];
 
-    const apiUrl = "";
+    const apiUrl =
+      "https://c961-2409-40f3-101f-3967-c7e7-ea31-e7c1-5b02.ngrok-free.app/sos";
     const res = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -51,14 +52,15 @@ export default function HomeTab() {
         source: sourcenumbers,
         target: targetNumber,
         location: location,
+        uid: "",
       }),
     });
 
     if (res.ok) {
       console.log("success");
+      Linking.openURL(`tel:${targetNumber[1]}`);
     }
 
-    Linking.openURL(`tel:${targetNumber}`);
   };
 
   return (
