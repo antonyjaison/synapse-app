@@ -113,7 +113,7 @@ const ChatTab = () => {
           setMessages((previousMessages) =>
             GiftedChat.append(previousMessages, {
               _id: Math.random().toString(),
-              text: textResponse.trim().replace('"', ""), // Use the text response directly
+              text: textResponse.trim().replaceAll('"', "").replaceAll("\n",""), // Use the text response directly
               createdAt: new Date(),
               user: {
                 _id: 2,
@@ -163,7 +163,7 @@ const ChatTab = () => {
             marginTop: 5,
           },
           left: {
-            backgroundColor: "#006D77",
+            backgroundColor: model === "hygeia" ? "#006D77" : "#F19483",
             borderBottomLeftRadius: 10,
             borderTopLeftRadius: 0,
             marginBottom: 20,
