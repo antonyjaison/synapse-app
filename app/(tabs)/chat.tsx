@@ -7,8 +7,9 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  Animated,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Bubble,
   GiftedChat,
@@ -18,7 +19,7 @@ import {
   Send,
 } from "react-native-gifted-chat";
 import messageData from "@/assets/data/messages.json";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { useChatStore } from "@/stores/useChat";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +36,23 @@ const ChatTab = () => {
   const [loading, setLoading] = useState(false);
   const { setIsChatInputFocus, isChatInputFocus, setIsChatInputBlur, model } =
     useChatStore();
+
+  const spinValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(spinValue, {
+        toValue: 1, // Rotate 360 degrees
+        duration: 1000, // Animation speed (1000 ms = 1 second)
+        useNativeDriver: true, // Use native driver for better performance
+      })
+    ).start();
+  }, [spinValue]);
+
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
 
   useEffect(() => {
     setMessages([
@@ -95,7 +113,7 @@ const ChatTab = () => {
           setMessages((previousMessages) =>
             GiftedChat.append(previousMessages, {
               _id: Math.random().toString(),
-              text: textResponse.trim(), // Use the text response directly
+              text: textResponse.trim().replace('"', ""), // Use the text response directly
               createdAt: new Date(),
               user: {
                 _id: 2,
@@ -325,6 +343,20 @@ const ChatTab = () => {
           );
         }}
       />
+      {loading && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: 80,
+            left: 10,
+            alignItems: "center",
+          }}
+        >
+          <Animated.View style={{ transform: [{ rotate: spin }] }}>
+            <EvilIcons name="spinner" size={40} />
+          </Animated.View>
+        </View>
+      )}
     </ImageBackground>
   );
 };
