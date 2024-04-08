@@ -68,13 +68,13 @@ function RootLayoutNav() {
   const { user, isLoaded } = useUser();
   const colorScheme = useColorScheme();
 
-  // useEffect(() => {
-  //   if (user && isLoaded) {
-  //     router.replace("/(tabs)");
-  //   } else if (isLoaded) {
-  //     router.replace("/(auth)/Login");
-  //   }
-  // }, [user, isLoaded]);
+  useEffect(() => {
+    if (user && isLoaded) {
+      router.replace("/(tabs)");
+    } else if (isLoaded) {
+      router.replace("/(auth)/Login");
+    }
+  }, [user, isLoaded]);
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -5,15 +5,21 @@ import BackgroundGradient from "@/components/Layouts/BackgroundGradient";
 import { Link } from "expo-router";
 import { signOut } from "firebase/auth";
 import { AUTH } from "@/lib/firebase";
+import { useUser } from "@/stores/useUser";
 
 const UserScreen = () => {
+  const { user } = useUser();
   return (
     <BackgroundGradient>
       <View className=" flex-col items-center">
         <View className=" relative w-fi">
           <Image
             className=" w-36 h-36 rounded-full"
-            source={require("@/assets/images/avatar.png")}
+            source={
+              user?.photoURL
+                ? { uri: user.photoURL }
+                : require("@/assets/images/avatar.png")
+            }
           />
           <TouchableOpacity>
             <View className=" bg-white rounded-full p-1 absolute bottom-[15px] left-[110px]">
@@ -23,7 +29,9 @@ const UserScreen = () => {
         </View>
 
         <View className=" mt-5">
-          <Text className="text-2xl">Antony Jaison</Text>
+          <Text className="text-2xl">
+            {user?.displayName ?? "Antony Jaison"}
+          </Text>
         </View>
       </View>
 

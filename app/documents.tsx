@@ -303,9 +303,13 @@ const Documents = () => {
                     )}
                   />
                 ) : (
-                  <Text>No documents found</Text>
+                  <Text className="mt-6 italic text-center">
+                    No documents found
+                  </Text>
                 ))}
-              {!documentLoaded && <ActivityIndicator size="large" />}
+              {!documentLoaded && (
+                <ActivityIndicator className="mt-6" size="large" />
+              )}
             </View>
           </View>
 

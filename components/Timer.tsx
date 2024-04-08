@@ -5,11 +5,13 @@ import { collection, getDocs } from "firebase/firestore";
 import { FIRESTORE_DB } from "@/lib/firebase";
 import { useUser } from "@/stores/useUser";
 import dayjs from "dayjs";
+import { usePathname } from "expo-router";
 
 const Timer = () => {
   const { user } = useUser();
   // State for the timer, starting from 45 minutes (converted to seconds).
   const [timeRemaining, setTimeRemaining] = useState(0);
+  const pathname = usePathname();
 
   async function getPrescriptions() {
     const prescriptionCollection = collection(
@@ -37,7 +39,7 @@ const Timer = () => {
 
   useEffect(() => {
     getPrescriptions();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     // Set up the interval to decrement the timeRemaining every second.
