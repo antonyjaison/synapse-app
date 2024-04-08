@@ -1,61 +1,86 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { collection, getDocs } from "firebase/firestore";
 import { FIRESTORE_DB } from "@/lib/firebase";
 import { useUser } from "@/stores/useUser";
 import dayjs from "dayjs";
 import { usePathname } from "expo-router";
+import * as Notifications from "expo-notifications";
+import Model from "./Model";
 
 const Timer = () => {
   const { user } = useUser();
-  // State for the timer, starting from 45 minutes (converted to seconds).
   const [timeRemaining, setTimeRemaining] = useState(0);
+  const [medicine, setMedicine] = useState("");
   const pathname = usePathname();
 
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
+
   async function getPrescriptions() {
-    const prescriptionCollection = collection(
-      FIRESTORE_DB,
-      "data",
-      user?.uid ?? "antony",
-      "prescriptions"
-    );
-    const docs = await getDocs(prescriptionCollection);
-    let minTime = 0;
-    docs.forEach((doc) => {
-      const data = doc.data();
-      const dateObj = data.expires.toDate();
-      const expires = dayjs(dateObj);
-      const today = dayjs();
-      if (
-        today.isBefore(expires) &&
-        (getTimeDifference(data.frequency) < minTime || minTime === 0)
-      ) {
-        minTime = getTimeDifference(data.frequency);
-      }
-    });
-    setTimeRemaining(minTime);
+    try {
+      const prescriptionCollection = collection(
+        FIRESTORE_DB,
+        "data",
+        user?.uid ?? "antony",
+        "prescriptions"
+      );
+      const docs = await getDocs(prescriptionCollection);
+      let minTime = Infinity;
+      docs.forEach((doc) => {
+        const data = doc.data();
+        setMedicine(data.name);
+        const dateObj = data.expires.toDate();
+        const expires = dayjs(dateObj);
+        const today = dayjs();
+        if (today.isBefore(expires)) {
+          const timeDifference = getTimeDifference(data.frequency);
+          if (timeDifference < minTime) {
+            minTime = timeDifference;
+          }
+        }
+      });
+      setTimeRemaining(minTime === Infinity ? 0 : minTime);
+    } catch (error) {
+      console.error("Failed to fetch prescriptions:", error);
+      setTimeRemaining(0);
+    }
   }
 
   useEffect(() => {
     getPrescriptions();
-  }, [pathname]);
+  }, [user?.uid, pathname]);
 
   useEffect(() => {
-    // Set up the interval to decrement the timeRemaining every second.
     const interval = setInterval(() => {
       setTimeRemaining((prevTime) => {
-        if (prevTime <= 0) {
-          // clearInterval(interval); // Clear interval if the timer reaches 0 to stop the countdown.
-          return 0; // Ensure the timer doesn't go into negative values.
+        const newTime = prevTime > 0 ? prevTime - 1 : 0;
+        if (newTime === 0) {
+          scheduleNotification(); // Call to schedule the notification
         }
-        return prevTime - 1; // Decrement the timer by one second.
+        return newTime;
       });
     }, 1000);
 
-    // Clean up the interval on component unmount.
     return () => clearInterval(interval);
-  }, []);
+  }, [timeRemaining]);
+
+  async function scheduleNotification() {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Time for Next Medication",
+        body: `It's time to take ${medicine}.`,
+      },
+      trigger: { seconds: 2 }, // Trigger immediately for demonstration purposes
+    });
+  }
 
   function getTimeDifference(freq: number) {
     const now = dayjs();
@@ -97,25 +122,27 @@ const Timer = () => {
   const seconds = timeRemaining % 60;
 
   return (
-    <View className="bg-[#FFFEFE] px-6 py-5 rounded-2xl flex-row items-center">
-      <LinearGradient
-        className="w-24 h-24 rounded-full items-center justify-center"
-        colors={["#006D77", "#85E8F1"]}
-      >
-        <View className="w-[75px] h-[75px] bg-[#FFFEFE] rounded-full items-center justify-center">
-          {/* Display the minutes and seconds, ensuring two digits for each. */}
-          <Text className="text-xs font-semibold">{`${hours
-            .toString()
-            .padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds
-            .toString()
-            .padStart(2, "0")}`}</Text>
-          <Text className="text-xs">Minutes</Text>
-        </View>
-        <View className="w-[10px] h-[10px] rounded-full bg-[#00646d] absolute top-0" />
-      </LinearGradient>
-      <Text className="font-medium text-xl w-48 ml-8">
-        Time for Next Medication
-      </Text>
+    <View>
+      <View className="bg-[#FFFEFE] px-6 py-5 rounded-2xl flex-row items-center">
+        <LinearGradient
+          className="w-24 h-24 rounded-full items-center justify-center"
+          colors={["#006D77", "#85E8F1"]}
+        >
+          <View className="w-[75px] h-[75px] bg-[#FFFEFE] rounded-full items-center justify-center">
+            {/* Display the minutes and seconds, ensuring two digits for each. */}
+            <Text className="text-sm font-semibold">{`${hours
+              .toString()
+              .padStart(2, "0")}:${minutes
+              .toString()
+              .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}</Text>
+            {/* <Text className="text-xs">Minutes</Text> */}
+          </View>
+          <View className="w-[10px] h-[10px] rounded-full bg-[#00646d] absolute top-0" />
+        </LinearGradient>
+        <Text className="font-medium text-xl w-48 ml-8">
+          Time for Next Medication
+        </Text>
+      </View>
     </View>
   );
 };

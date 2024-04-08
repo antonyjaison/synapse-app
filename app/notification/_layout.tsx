@@ -40,7 +40,6 @@ const Notification = () => {
           },
           animationEnabled:true,
           tabBarItemStyle:{
-            backgroundColor:"red",
             padding:0,
             borderRadius:30,            
           },
@@ -48,7 +47,7 @@ const Notification = () => {
             backgroundColor:"#fff",
             borderRadius:30,
             padding:0,
-            elevation:3,
+            // elevation:3,
           },
           tabBarAndroidRipple:{
             color:"#f2f2f2"
