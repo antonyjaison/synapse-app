@@ -95,7 +95,7 @@ const ChatTab = () => {
           setMessages((previousMessages) =>
             GiftedChat.append(previousMessages, {
               _id: Math.random().toString(),
-              text: textResponse, // Use the text response directly
+              text: textResponse.trim(), // Use the text response directly
               createdAt: new Date(),
               user: {
                 _id: 2,
