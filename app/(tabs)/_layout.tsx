@@ -103,7 +103,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="peoples"
         options={{
-          title: "Linked Accounts",
+          title: "Monitor",
+          headerTitleAlign: "center",
+          headerStyle: {
+            height: 120,
+          },
+          headerLeft: () => <HealthHeaderLeft />,
+          headerTitle: () => <Text className=" text-lg">Data Monitor</Text>,
           tabBarIcon: ({ color }) => (
             <Ionicons size={22} name="people-circle-outline" color={color} />
           ),
