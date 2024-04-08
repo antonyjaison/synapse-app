@@ -101,11 +101,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="shop"
+        name="peoples"
         options={{
-          title: "Shop",
+          title: "Linked Accounts",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="shopping-cart" color={color} />
+            <Ionicons size={22} name="people-circle-outline" color={color} />
           ),
         }}
       />

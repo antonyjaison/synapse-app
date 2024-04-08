@@ -112,6 +112,14 @@ function RootLayoutNav() {
               headerShadowVisible: false,
             }}
           />
+          <Stack.Screen
+            name="connected"
+            options={{
+              title: "Linked Accounts",
+              headerTitleAlign: "center",
+              headerShadowVisible: false,
+            }}
+          />
 
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
           <Stack.Screen name="oauthredirect" options={{ headerShown: false }} />

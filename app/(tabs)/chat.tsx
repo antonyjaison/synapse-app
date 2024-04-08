@@ -32,6 +32,7 @@ type MyMessageType = {
 const ChatTab = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
   const { setIsChatInputFocus, isChatInputFocus, setIsChatInputBlur, model } =
     useChatStore();
 
@@ -52,13 +53,66 @@ const ChatTab = () => {
     ]);
   }, []);
 
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
-    );
+  const handleInputChange = (e: any) => {
+    setText(e);
+  };
 
-    console.log(messages);
-  }, []);
+  const onSend = useCallback(
+    async (messages = []) => {
+      try {
+        setLoading(true); // Start loading
+
+        // Append new messages to the chat
+        setMessages((previousMessages) =>
+          GiftedChat.append(previousMessages, messages)
+        );
+
+        // Perform the POST request
+        const response = await fetch(
+          `https://c961-2409-40f3-101f-3967-c7e7-ea31-e7c1-5b02.ngrok-free.app/${model}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              messages: text, // Assuming 'text' is the text from the new message
+              uid: "rcT4Yob91eNQMeSl1INaE7BsRBq1",
+            }),
+          }
+        );
+
+        if (!response.ok) throw new Error("Failed to fetch");
+
+        const res = response;
+        console.log(JSON.stringify(res));
+
+        const textResponse = await response.text(); // Use .text() instead of .json()
+        console.log(textResponse);
+
+        // Check if the text response is not empty and append message
+        if (textResponse) {
+          setMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, {
+              _id: Math.random().toString(),
+              text: textResponse.trim(), // Use the text response directly
+              createdAt: new Date(),
+              user: {
+                _id: 2,
+                name: "hygeia",
+                avatar: "https://github.com/shadcn.png",
+              },
+            })
+          );
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      } finally {
+        setLoading(false); // Stop loading regardless of outcome
+      }
+    },
+    [model, text] // Ensure 'model' and 'text' are included in dependency array if they are used within the callback
+  );
 
   const renderTime = (props: any) => {
     return (
@@ -88,12 +142,14 @@ const ChatTab = () => {
             borderWidth: 0.5,
             borderColor: "#6C6969",
             marginBottom: 20,
+            marginTop: 5,
           },
           left: {
             backgroundColor: "#006D77",
             borderBottomLeftRadius: 10,
             borderTopLeftRadius: 0,
             marginBottom: 20,
+            marginTop: 5,
           },
         }}
         textStyle={{
@@ -213,7 +269,7 @@ const ChatTab = () => {
         renderAvatar={renderAvatar}
         renderBubble={renderBubble}
         renderSend={(props) => (
-          <Send {...props} alwaysShowSend>
+          <Send disabled={loading} {...props} alwaysShowSend>
             <View
               style={{
                 height: 46,
@@ -237,7 +293,7 @@ const ChatTab = () => {
             marginLeft: 5,
           },
         }}
-        onInputTextChanged={setText}
+        onInputTextChanged={handleInputChange}
         maxComposerHeight={100}
         renderInputToolbar={(props: any) => {
           const textInputProps = {
