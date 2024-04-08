@@ -12,7 +12,7 @@ const GraphCard = () => {
   const [graphWidth, setGraphWidth] = React.useState(100);
 
   return (
-    <View className="bg-cardbg rounded-[15px] py-[22px] px-5">
+    <View className="bg-cardbg rounded-[15px] py-[22px] px-5 h-60">
       <View className="flex-row items-center" style={{ gap: 10 }}>
         <Text className="text-black">March</Text>
         <Dropdown

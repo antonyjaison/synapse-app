@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
+  Linking,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DocumentCard from "@/components/DocumentCard";
@@ -297,7 +298,7 @@ const Documents = () => {
                       <DocumentCard
                         title={item.item.name}
                         subtitle="Health Report"
-                        onPress={() => console.log("pressed card")}
+                        onPress={() => Linking.openURL(item.item.url)}
                       />
                     )}
                   />

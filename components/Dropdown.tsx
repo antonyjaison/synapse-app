@@ -40,7 +40,7 @@ const Dropdown = ({ value, setValue, data }: DropdownProps) => {
           )}
           style={{
             gap: 8,
-            width: 90,
+            width: 100,
           }}
         >
           <Text className="text-black">{value}</Text>
