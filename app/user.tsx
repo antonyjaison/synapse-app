@@ -67,6 +67,20 @@ const UserScreen = () => {
             <Ionicons name="chevron-forward" size={25} />
           </View>
           <View className=" w-full h-[1px] bg-[#C6C6C6]" />
+
+          <View className=" h-fit flex-row w-full justify-between my-6">
+            <View className=" h-fit flex-row items-center gap-10">
+              <Ionicons color="#006D77" name="backspace-outline" size={25} />
+              <Link href="/userdetails">
+                <Text className="text-sm">Medical History</Text>
+              </Link>
+            </View>
+            <Link href="/userdetails">
+              <Ionicons name="chevron-forward" size={25} />
+            </Link>
+          </View>
+          <View className=" w-full h-[1px] bg-[#C6C6C6]" />
+
           <View className=" h-fit flex-row w-full justify-between my-6">
             <View className=" h-fit flex-row items-center gap-10">
               <Ionicons color="#006D77" name="mail-outline" size={25} />
