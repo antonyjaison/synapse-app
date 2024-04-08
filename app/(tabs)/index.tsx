@@ -8,12 +8,25 @@ import HazardButton from "@/components/HazardButton";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { TouchableNativeFeedback } from "react-native";
 import * as Location from "expo-location";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Linking } from "react-native";
+import { io } from "socket.io-client";
 
 export default function HomeTab() {
   const [location, setLocation] = useState<any>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  // useEffect(() => {
+  //   const ws = io(
+  //     "https://c961-2409-40f3-101f-3967-c7e7-ea31-e7c1-5b02.ngrok-free.app/"
+  //   );
+  //   console.log("Connecting to server", ws.connected);
+  //   ws.on("connect", () => {
+  //     console.log("Connecte to server");
+  //   });
+  //   ws.on("error", (e) => {
+  //     console.error("Error connecting to server", e);
+  //   });
+  // }, []);
 
   const ripple = TouchableNativeFeedback.Ripple("#FFFFFF70", true);
 
@@ -60,7 +73,6 @@ export default function HomeTab() {
       console.log("success");
       Linking.openURL(`tel:${targetNumber[1]}`);
     }
-
   };
 
   return (
